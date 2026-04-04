@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Radar | インサイトを最速でテイクオフ</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter & Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Marked.js for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body class="dark-mode">
+    <div class="glass-bg"></div>
+
+    <header>
+        <div class="logo">
+            <h1>Trend Radar</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="keyword-input" placeholder="キーワードを入力して最新の波を掴む..." autocomplete="off">
+                <button id="search-btn">
+                    <span class="btn-text">Ride the Wave</span>
+                    <span class="btn-loader" hidden></span>
+                </button>
+            </div>
+            <div class="quick-tags" id="quick-tags">
+                <!-- 関連キーワードがここに表示される -->
+            </div>
+        </section>
+
+        <section class="results-section" id="results-area" hidden>
+            <!-- トレンド強度ゲージ -->
+            <div class="trend-strength-container card">
+                <h3>世界の温度感 (Trend Strength)</h3>
+                <div class="gauge-wrapper">
+                    <div class="gauge-bar" id="trend-gauge" style="width: 0%;"></div>
+                </div>
+                <p id="trend-label" class="trend-label">Waiting for insights...</p>
+            </div>
+
+            <!-- AI 3-Stage Workflow Output -->
+            <div class="workflow-container">
+                <!-- Stage 1: Researcher -->
+                <article class="workflow-step card" id="stage-researcher">
+                    <div class="step-header">
+                        <span class="step-badge">Stage 1</span>
+                        <h2>リサーチAI (Researcher)</h2>
+                    </div>
+                    <div class="step-content markdown-body" id="research-output">
+                        <p class="placeholder-text">データ収集中...</p>
+                    </div>
+                </article>
+
+                <!-- Stage 2: Professor -->
+                <article class="workflow-step card" id="stage-professor">
+                    <div class="step-header">
+                        <span class="step-badge">Stage 2</span>
+                        <h2>教授AI (Professor)</h2>
+                    </div>
+                    <div class="step-content markdown-body" id="professor-output">
+                        <p class="placeholder-text">分析中...</p>
+                    </div>
+                    <div class="citations-container" id="citations-area">
+                        <!-- 引用元URLはここに表示 -->
+                    </div>
+                </article>
+
+                <!-- Stage 3: Trainer -->
+                <article class="workflow-step card" id="stage-trainer">
+                    <div class="step-header">
+                        <span class="step-badge">Stage 3</span>
+                        <h2>トレーナーAI (Trainer)</h2>
+                    </div>
+                    <div class="step-content markdown-body" id="trainer-output">
+                        <p class="placeholder-text">アクションプラン作成中...</p>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Action Area -->
+            <div class="action-footer">
+                <button id="copy-btn" class="secondary-btn">内容を一括コピー (Markdown)</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Trend Radar. Built for CMOs riding the digital ocean.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

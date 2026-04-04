@@ -1,0 +1,224 @@
+:root {
+    --bg-color: #001a1d;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text-primary: #f0f4f5;
+    --text-secondary: #94a3a8;
+    --accent-blue: #268bd2;
+    --accent-aqua: #2aa198;
+    --accent-orange: #cb4b16;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-opacity: 0.1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Effects */
+.glass-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(42, 161, 152, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(38, 139, 210, 0.1) 0%, transparent 50%);
+    z-index: -1;
+}
+
+header {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Search Section */
+.search-section {
+    margin-bottom: 3rem;
+}
+
+.search-container {
+    display: flex;
+    gap: 1rem;
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+
+#keyword-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    padding: 0 1.5rem;
+    outline: none;
+}
+
+#search-btn {
+    background: linear-gradient(135deg, var(--accent-aqua), var(--accent-blue));
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(42, 161, 152, 0.3);
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Gauge */
+.trend-strength-container h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.gauge-wrapper {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.gauge-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--accent-blue), var(--accent-aqua));
+    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.trend-label {
+    font-size: 0.9rem;
+    color: var(--accent-aqua);
+    font-weight: 700;
+}
+
+/* Workflow Steps */
+.workflow-step {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.step-badge {
+    background: var(--border-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--accent-aqua);
+}
+
+.markdown-body {
+    color: var(--text-primary);
+}
+
+.markdown-body p {
+    margin-bottom: 1rem;
+}
+
+.placeholder-text {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Footer & Buttons */
+.action-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    padding: 0.8rem 2rem;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+.secondary-btn:hover {
+    background: rgba(38, 139, 210, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .search-container {
+        flex-direction: column;
+        border-radius: 1rem;
+    }
+    #search-btn {
+        width: 100%;
+    }
+}
