@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
         return { statusCode: 500, body: JSON.stringify({ error: 'API keys not configured' }) };
     }
 
-    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+    const GEMINI_BASE_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
 
     try {
         // --- STAGE 1: RESEARCHER ---
@@ -44,9 +44,12 @@ exports.handler = async (event, context) => {
 
         const researcherPrompt = `キーワードに関する最新トレンドをリサーチしてください: ${keyword}\n\n検索結果:\n${searchResults}`;
 
-        const researchRes = await fetch(GEMINI_URL, {
+        const researchRes = await fetch(GEMINI_BASE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': GEMINI_API_KEY
+            },
             body: JSON.stringify({ contents: [{ parts: [{ text: researcherPrompt }] }] })
         });
         const researchDataRes = await researchRes.json();
@@ -62,9 +65,12 @@ exports.handler = async (event, context) => {
         // --- STAGE 2: PROFESSOR ---
         const professorPrompt = `以下のリサーチ結果を解説し、引用元URLを明示してください:\n${researchText}`;
 
-        const professorRes = await fetch(GEMINI_URL, {
+        const professorRes = await fetch(GEMINI_BASE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': GEMINI_API_KEY
+            },
             body: JSON.stringify({ contents: [{ parts: [{ text: professorPrompt }] }] })
         });
         const professorDataRes = await professorRes.json();
@@ -77,9 +83,12 @@ exports.handler = async (event, context) => {
         // --- STAGE 3: TRAINER ---
         const trainerPrompt = `以下を読み、今日できる3つの具体的アクションを提案してください:\n${professorText}`;
 
-        const trainerRes = await fetch(GEMINI_URL, {
+        const trainerRes = await fetch(GEMINI_BASE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': GEMINI_API_KEY
+            },
             body: JSON.stringify({ contents: [{ parts: [{ text: trainerPrompt }] }] })
         });
         const trainerDataRes = await trainerRes.json();
