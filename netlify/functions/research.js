@@ -33,6 +33,12 @@ exports.handler = async (event, context) => {
                 search_depth: 'advanced'
             })
         });
+
+        if (!searchResponse.ok) {
+            const errorData = await searchResponse.text();
+            throw new Error(`Tavily API Error: ${searchResponse.status} - ${errorData}`);
+        }
+
         const searchData = await searchResponse.json();
         const searchResults = searchData.results.map(r => `- ${r.title}: ${r.url}`).join('\n');
 
@@ -44,6 +50,13 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ contents: [{ parts: [{ text: researcherPrompt }] }] })
         });
         const researchDataRes = await researchRes.json();
+
+        if (researchDataRes.error) {
+            throw new Error(`Gemini API Error (Research): ${researchDataRes.error.message}`);
+        }
+        if (!researchDataRes.candidates || researchDataRes.candidates.length === 0) {
+            throw new Error('Gemini API Error: No candidates returned in Research stage.');
+        }
         const researchText = researchDataRes.candidates[0].content.parts[0].text;
 
         // --- STAGE 2: PROFESSOR ---
@@ -55,6 +68,10 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ contents: [{ parts: [{ text: professorPrompt }] }] })
         });
         const professorDataRes = await professorRes.json();
+
+        if (professorDataRes.error) {
+            throw new Error(`Gemini API Error (Professor): ${professorDataRes.error.message}`);
+        }
         const professorText = professorDataRes.candidates[0].content.parts[0].text;
 
         // --- STAGE 3: TRAINER ---
@@ -66,6 +83,10 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ contents: [{ parts: [{ text: trainerPrompt }] }] })
         });
         const trainerDataRes = await trainerRes.json();
+
+        if (trainerDataRes.error) {
+            throw new Error(`Gemini API Error (Trainer): ${trainerDataRes.error.message}`);
+        }
         const trainerText = trainerDataRes.candidates[0].content.parts[0].text;
 
         return {
@@ -80,10 +101,13 @@ exports.handler = async (event, context) => {
         };
 
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('API Error:', error.message);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to generate insights' })
+            body: JSON.stringify({
+                error: 'Failed to generate insights',
+                details: error.message
+            })
         };
     }
 };

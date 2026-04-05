@@ -28,25 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ keyword })
             });
 
-            if (!response.ok) throw new Error('API Request failed');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw errorData; // Throw the error object containing details
+            }
 
             const data = await response.json();
-
-            // Update UI with real data (using marked for markdown rendering)
+            // ... (rest of success logic)
             document.getElementById('research-output').innerHTML = marked.parse(data.research);
             document.getElementById('professor-output').innerHTML = marked.parse(data.professor);
             document.getElementById('trainer-output').innerHTML = marked.parse(data.trainer);
 
-            // Update Gauge & Labels
             trendGauge.style.width = `${data.strength}%`;
             trendLabel.innerText = data.label;
 
-            // Scroll to results
             resultsArea.scrollIntoView({ behavior: 'smooth' });
 
         } catch (error) {
             console.error('Error fetching insights:', error);
-            alert('波の読み取りに失敗したぜ...。APIキーの設定を確認してみてくれ！🤘');
+            const detailedMsg = error.details ? `\n【詳細】: ${error.details}` : '';
+            alert(`波の読み取りに失敗したぜ...。${detailedMsg}\nAPIキーの設定を確認してみてくれ！🤘`);
         } finally {
             searchBtn.disabled = false;
             searchBtn.innerHTML = 'Ride the Wave';
