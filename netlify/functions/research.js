@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
         return { statusCode: 500, body: JSON.stringify({ error: 'API keys not configured' }) };
     }
 
-    const GEMINI_BASE_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    const GEMINI_BASE_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent`;
 
     console.log(`[Trend Radar] Starting research for keyword: ${keyword}`);
 
